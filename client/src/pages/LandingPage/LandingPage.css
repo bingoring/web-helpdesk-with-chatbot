@@ -1,0 +1,8 @@
+#padding-zero {
+  padding-right: 0;
+  padding-left: 0;
+}
+.card-text {
+  display: flex;
+  justify-content: flex-end;
+}

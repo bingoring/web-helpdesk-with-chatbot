@@ -1,0 +1,36 @@
+version: "3.4"
+
+networks:
+  backbone:
+    driver: bridge
+
+services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+    networks:
+      - backbone
+    # volumes:
+    #   - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - api_server
+    ports:
+      - "80:80"
+
+  api_server:
+    image: server
+    build:
+      context: server
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./server/.env
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./server/uploads:/usr/src/app/uploads
+    networks:
+      - backbone
+    ports:
+      - 5000

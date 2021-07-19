@@ -1,0 +1,31 @@
+.NavFirstRow {
+  background-color: white;
+}
+.NavLogo {
+  background-color: white;
+}
+
+.logo-text {
+  color: #0069c0;
+  font-weight: bold;
+  height: 1px;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+#collasible-nav {
+  width: 200px;
+}
+#dropDown-nav {
+  width: 200px;
+  color: white;
+}
+#NavSecondRow {
+  background-color: #0069c0;
+}
+
+.left-margin {
+  margin-left: 4px;
+}
+#textcolorwhite {
+  color: white;
+}
