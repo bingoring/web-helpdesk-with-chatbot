@@ -39,5 +39,5 @@
 - 💁‍♂️[성치훈](https://github.com/Chihoon-Sung) - Android
 - 🙆‍♂️[이동기](https://github.com/rkdmf1026) - Android
 - 🤷‍♂️[이우제](https://github.com/woojerry) - Web Front-end
-- 🙎‍♂️[염연웅](https://github.com/bingoring) - Chatbot
+- 🙎‍♂️[염연웅](https://github.com/bingoring) - Server & Chatbot & 
 
