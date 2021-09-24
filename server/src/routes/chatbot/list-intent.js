@@ -77,34 +77,6 @@ exports.listIntents = async (req, res) => {
     let childCardinality = {};
     let cardinalCount = 0;
     let cardinalityNum = [];
-    // response.forEach((intent)=> {
-    //   let cardinalCount = 0;
-    //   if(intent.displayName.includes(' - custom')){
-        
-    //     let temp = intent.displayName.toString().substr(intent.displayName.length-1, 1);
-    //     //console.log(temp);
-    //     let displayNameWithoutNum;
-    //     if (!isNaN(temp)) {  //끝에 숫자가 있다면
-    //       //console.log(intent.displayName.slice(intent.displayName - 1, -1));
-    //       displayNameWithoutNum = intent.displayName.slice(0, intent.displayName.length - 2)
-          
-    //     } else {
-    //       displayNameWithoutNum = intent.displayName;
-    //     }
-    //     cardinalCount++;
-    //     //search parent
-    //     let parentIntentDisplayName = displayNameWithoutNum.slice(0, -9);
-    //     //console.log(intent.displayName);
-    //     //console.log(parentIntentDisplayName);
-
-    //     if(!childCardinality[parentIntentDisplayName]){
-    //       childCardinality[parentIntentDisplayName] = ['1'];
-    //     }else{
-    //       childCardinality[parentIntentDisplayName].push('1');
-    //     }
-
-    //   }
-    // })
 
     response.forEach((intent)=> {
       //phrase listing==================================
@@ -123,22 +95,17 @@ exports.listIntents = async (req, res) => {
       //message listing==================================
       
       intent.messages.forEach((message) => {
-        //console.log(message.text.text);
         const instantMessageTextArray = message.text.text;
         let gatheredTexts = [];
         
         instantMessageTextArray.forEach((each) => {
           gatheredTexts.push([each]);
         })
-        //console.log(gatheredTexts);
         if(!messageTexts[intent.displayName]){
           messageTexts[intent.displayName] = gatheredTexts;
         }else{
           messageTexts[intent.displayName].push(gatheredTexts);
         }
-        //messageTexts.push([intent.displayName, message.text.text]);
-        //console.log(message.text.text);
-          //messageTexts.push([intent.displayName, element.text]);
       })
 
 
@@ -147,10 +114,8 @@ exports.listIntents = async (req, res) => {
       if(intent.displayName.includes(' - custom')){
         
         let temp = intent.displayName.toString().substr(intent.displayName.length-1, 1);
-        //console.log(temp);
         let displayNameWithoutNum;
         if (!isNaN(temp)) {  //끝에 숫자가 있다면
-          //console.log(intent.displayName.slice(intent.displayName - 1, -1));
           displayNameWithoutNum = intent.displayName.slice(0, intent.displayName.length - 2)
           
         } else {
@@ -159,8 +124,6 @@ exports.listIntents = async (req, res) => {
         cardinalCount++;
         //search parent
         let parentIntentDisplayName = displayNameWithoutNum.slice(0, -9);
-        //console.log(intent.displayName);
-        //console.log(parentIntentDisplayName);
 
         if(!childCardinality[parentIntentDisplayName]){
           childCardinality[parentIntentDisplayName] = ['1'];
@@ -169,55 +132,7 @@ exports.listIntents = async (req, res) => {
         }
 
       }
-      //
-      //inputcontext listing==================================
-      /*
-      intent.inputContextNames.forEach((contexts) => {
-        let contextName = String(contexts);
-        let inputArrayWithFollowup = contextName.split('/');
-        //console.log(inputArrayWithFollowup);
-        //let inputArrayWithFollowupString = String(inputArrayWithFollowup);
-        //let inputContextNameArray = inputArrayWithFollowupString.split('-');
-        let inputContextName = inputArrayWithFollowup[6];
-        if(!inputContexts[intent.displayName]){
-          inputContexts[intent.displayName] = [inputContextName];
-        }else{
-          inputContexts[intent.displayName].push(inputContextName);
-        }
-        //inputContexts[intent.displayName].push([contexts]);
-        //console.log(contexts);
-      })
-      */
-      //outputcontext listing==================================
-      /*
-      intent.outputContexts.forEach((contexts) => {
-        let contextName = String(contexts.name);
-        var outputArrayWithFollowup = contextName.split('/');
-        //console.log(outputArrayWithFollowup);
-        //let outputArrayWithFollowupString = String(outputArrayWithFollowup);
-        //let outputContextNameArray = outputArrayWithFollowupString.split('-');
-        let outputContextName = outputArrayWithFollowup[6];
-        if(!outputContext[intent.displayName]){
-          outputContext[intent.displayName] = [outputContextName];
-        }else{
-          outputContext[intent.displayName].push(outputContextName);
-        }
-        //outputContext[intent.displayName].push([contexts.name]);
-        //console.log(contexts);
-        
-        //
-      }
-      */
-      //console.log(`displayname: ${intent.displayName}
-      //followupinfo: ${intent.followupIntentInfo}`);
-      //console.log(intent.displayName);
-      //console.log(intent.name);
-      //console.log('루트팔로업인텐트');
-      //console.log(intent.rootFollowupIntentName);
-      //console.log('패런트팔로업인텐트');
-      //console.log(intent.parentFollowupIntentName);
-      //console.log(intent.followupIntentInfo);
-      //var displayName = String(intent.displayName);
+      
       var count = intent.displayName.match(/custom/g);
       if(count != null) {
         childDegree[intent.displayName] = count.length;
@@ -230,9 +145,6 @@ exports.listIntents = async (req, res) => {
       }else{
         cardinalityNum[intent.displayName] = childCardinality[intent.displayName].length;
       }
-      //console.log(intent.displayName);
-      //console.log(childCardinality[intent.displayName]);
-      //console.log(cardinalityNum);
 
       result.push({
         intentName: intent.displayName,
@@ -259,29 +171,6 @@ exports.listIntents = async (req, res) => {
       return 0;
     });
 
-    // if(!subIntents[result[i].displayName]){
-    //   subIntents[result[i].displayName] = result[j]
-    // }else{
-    //   subIntents.push(result[j]);
-    // }
-
-    /*
-    let newResult = [];
-    for(let i = 0; i < result.length; i++){
-      newResult.push(result[i]);
-      if(result[i].outputContext){
-        let parentIntent = result[i];
-        let childIntents = searchChild(result, result[i], ++i);
-        for(let j = i+1; j < result.length; j++){ //find child
-          if(parentIntent.outputContext === result[j].inputContexts){ //found child intent
-            childIntents.push(result[j]);
-            result.splice(j, 1);
-          }
-        }
-        newResult.childIntents = childIntents;
-      }
-    }
-*/
     let childIntents = [];
     //for문안에서 순회하며 호출
     const searchChild = (intentArray, childIntents, index, childIndex, degree) =>{
@@ -315,89 +204,10 @@ exports.listIntents = async (req, res) => {
       }
       return childArray;
     }
-    
-    //let childIntentsResult = searchChild(result, childIntents, 0, 0, 0);
-    //console.log(childIntentsResult);
-    /*
-    console.log("trainingPhrases here");
-    console.log(trainingPhrases);
-    console.log("messageText here");
-    console.log(messageTexts);
-    console.log("inputContexts here");
-    console.log(inputContexts);
-    console.log("outputContexts here");
-    console.log(outputContext);
-    */
 
-    //console.log(result);
     res.send({
       result: result});
-    /*
-    res.send({
-      trainingPhrases: trainingPhrases,
-      messageTexts: messageTexts,
-      inputContexts: inputContexts,
-      outputContext: outputContext,
-    })
-    */
-    //console.log(`trainingphrases: ${trainingPhrases}`);
-
-    /*
-    // The path to identify the agent that owns the intents.
-    const projectAgentPath = intentsClient.agentPath(process.env.GOOGLE_PROJECT_ID);
-  
-    console.log(projectAgentPath);
-  
-    const request = {
-      parent: projectAgentPath,
-    };
-  
-    // Send the request for listing intents.
-    const [response] = await intentsClient.listIntents(request);
-    console.log("=================");
-    console.log(response);
-    //var response_str = JSON.stringify(response);
-    //console.log(response_str);
-    response.forEach(intent => {
-      console.log('====================');
-      console.log(`Intent name: ${intent.name}`);
-      console.log(`Intent id: ${intent.id}`);
-      console.log(`Intent display name: ${intent.displayName}`);
-      
-      console.log("parameters");
-      console.log(JSON.stringify(intent.parameters));
-      console.log("messgaes");
-      console.log(JSON.stringify(intent.messages));
-      // intent.outputContexts.forEach(context => {
-      //   console.log(JSON.stringify(context));
-      // }); 
-      // intent.messages.forEach(message => {
-      //   console.log(JSON.stringify(message));
-      // }); 
-      // console.log('Parameters:------');
-      // intent.parameters.forEach(parameter => {
-      //   console.log(JSON.stringify(parameter));
-      // }); 
-      // console.log(`Intent parameters: ${intent.parameters}`);
-
-      //console.log(`Action: ${intent.action}`);
-      //console.log(`Root folowup intent: ${intent.rootFollowupIntentName}`);
-      //console.log(`Parent followup intent: ${intent.parentFollowupIntentName}`);
-  
-       console.log('Input contexts:');
-       intent.inputContextNames.forEach(inputContextName => {
-         console.log(`\tName: ${inputContextName}`);
-       });
-  
-       console.log('Output contexts:');
-       intent.outputContexts.forEach(outputContext => {
-         console.log(`\tName: ${outputContext.name}`);
-       });
-    });
-  }catch(error){
-    console.log(error);
-  }
-  */
+    
 }catch(error){
   console.log(error);
 }

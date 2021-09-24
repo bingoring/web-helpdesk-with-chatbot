@@ -43,17 +43,12 @@ exports.deleteIntent = async (req, res) => {
       console.log(intent.displayName);
       if (intent.displayName.toString() === req.body.intentName.toString()) {
         var nameArray = intent.name.split("/");
-        //console.log(`=======searched intent name: ${intent.name}`);
-        //console.log(`=======searched intent displayname: ${intent.displayName}`);
-        //console.log(`=======searched intent id: ${nameArray[4]}`);
         intentId = nameArray[4];
       }
     });
   } catch (error) {
     console.log("intent id search failed");
   }
-  //console.log(`intent name: ${req.body.displayName}`);
-  //let intentId = searchIntentId(req.body.displayName);
 
   const intentPath = intentsClient.intentPath(projectId, intentId);
 

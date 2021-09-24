@@ -38,10 +38,6 @@ exports.updateIntent = async (req, res) => {
                 ? existingIntent.trainingPhrases
                 : [];
 
-        //previousTrainingPhrases.forEach(textdata => {
-        //    newTrainingPhrases.push(textdata.parts[0].text)
-        //});
-
         updatedTrainingPhrases.forEach(phrase => {
             const part = {
                 text: phrase
@@ -64,19 +60,6 @@ exports.updateIntent = async (req, res) => {
             existingIntent.messages.length > 0
                 ? existingIntent.messages
                 : [];
-
-        //previousMessages.forEach(textdata => {
-        //    newMessageTexts.push(textdata.parts[0].text)
-        //});
-
-        //updatedMessageTexts.forEach(messagepart => {
-        //array.push(messagepart);
-        //console.log(`messagepart: ${messagepart}`);
-        //Here we create a new training phrase for each provided part.
-
-        //messages.push(message);
-        // });
-        //console.log(`message: ${updatedMessageTexts}`);
 
         const text = {
             text: updatedMessageTexts,

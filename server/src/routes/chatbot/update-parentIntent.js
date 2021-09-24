@@ -24,8 +24,6 @@ exports.updateIntent = async (req, res) => { try{
         if (intent.displayName.toString() === req.body.parentIntentName.toString()) {
             existingIntent = intent;
             existingIntent.name = intent.name;
-            //console.log(`existingIntent.name: ${existingIntent.name}`);
-            //console.log(existingIntent.followupIntentInfo);
         }
         //console.log(`intent name ${intent.displayName}: ${intent.name}`);
 
@@ -34,10 +32,7 @@ exports.updateIntent = async (req, res) => { try{
     //==========================================
     //==========outputContext updatee=========
     //==========================================
-    
-    console.log('here');
-    //if (!existingIntent.outputContexts) {
-        //let outputName = String(existingIntent.name) + "-followup";
+
     let outputName = 'projects/itsp-chatbot-app/agent/sessions/-/contexts/computersystemproblem-followup'
     console.log(outputName);
     existingIntent.outputContexts = [

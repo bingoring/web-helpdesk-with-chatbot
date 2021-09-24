@@ -4,7 +4,6 @@ const dialogflow = require('dialogflow');
 // Instantiates the Intent Client
 const intentsClient = new dialogflow.IntentsClient();
 
-
 /*
 const newIntent = {
     displayName: 'WeatherIntent',
@@ -99,10 +98,6 @@ exports.createIntent = async (req, res) => { try{
   let headContext = 'projects/itsp-chatbot-app/agent/sessions/-/contexts/';
   const inputContext = headContext + nameWithoutSCESin + '-followup'
   const outputContext = headContext + nameWithoutSCESout + '-followup'
-  //const inputContext ='projects/itsp-chatbot-app/agent/sessions/-/contexts/computersystemproblem-custom-followup';
-  //const outputContext = 'projects/itsp-chatbot-app/agent/sessions/-/contexts/computersystemproblem-custom-custom-followup';
-  //const newdisplayNameString = String(req.body.displayName) + ' - custom'
-  //const newdisplayName = req.body.displayName + ' - custom';
   
     const request = {
       parent: projectAgentPath,
@@ -129,16 +124,12 @@ exports.createIntent = async (req, res) => { try{
     let rootIntentdisplayName = displayNameWithoutNum.split(' ');
     let rootIntent;
     response.forEach(intents => {
-      //console.log(intent.displayName);
       if (intents.displayName.toString() === rootIntentdisplayName[0].toString()) {
         rootIntent = intents;
       }
     })
 
     let parentIntentFollowup = 'projects/itsp-chatbot-app/agent/intents/a5dd602f-eacf-43b8-b222-49cfd678a278';
-    //console.log(parentIntentFollowup);
-
-    //console.log(parentIntent.name);
 
     intent = {
       displayName: req.body.displayName,
@@ -186,12 +177,9 @@ exports.createIntent = async (req, res) => { try{
     intent: intent,
     //inputContextNames: [inputContext],
   };
-  // Create the intent
-  // try{
-  const [response] = await intentsClient.createIntent(createIntentRequest);
-  // }catch(error){
 
-  // }
+  const [response] = await intentsClient.createIntent(createIntentRequest);
+
   res.send( {
     resultCode: 0,
     message: "Followup Intent 생성 성공",
